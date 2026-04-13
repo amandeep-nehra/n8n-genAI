@@ -1,0 +1,15 @@
+🛠 How to Use These Workflows
+1. Importing to n8nInstall n8n (via Desktop app or Docker).
+Create a New Workflow.Drag and drop the .json file from the /n8n-Workflows folder directly into the n8n canvas.
+Alternatively, click on the three dots (⋮) in the top right corner - Import from File.
+
+2. Configuration & Credentials
+To make the workflow functional, you will need to set up the following credentials in n8n:
+Groq API: For the Llama-3 chat model node.
+Supabase: For the Vector Store and Database nodes.
+HuggingFace: For the Inference Embeddings node (distilbert-base-nli-mean-token).
+
+3. Operational Flow
+The system is divided into two logical stages:
+Flow 1 (Ingestion): Execute this once to parse the "Attention Is All You Need" PDF, chunk the text, and generate embeddings for storage in Supabase.
+Flow 2 (Retrieval): This is the active chat interface. When a user asks a question, the AI Agent uses the Vector Store tool to retrieve relevant context and generates a grounded response.
