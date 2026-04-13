@@ -22,9 +22,3 @@ LLMs: Groq (Llama-3.1-70b), HuggingFace Inference.
 Orchestration: n8n, LangChain, Docker.
 Vector Databases: Supabase, ChromaDB.
 Tools: Python, Jupyter, VS Code.
-
-📈 Impact for Research Roles
-This project serves as a "Proof of Work" for Intelligent Systems and Software Engineering student assistant roles. It proves competence in:
-Systematic Evaluation: Testing different retrieval strategies for performance.
-Reproducibility: Providing complete JSON workflows and documented code.
-Modern AI Stack: Hands-on experience with the latest Agentic AI frameworks.
