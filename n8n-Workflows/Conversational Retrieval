@@ -1,0 +1,177 @@
+{
+  "name": "Conversational Retrieval",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        80,
+        112
+      ],
+      "id": "1693e499-99a9-43cb-984f-e0f847faf7ec",
+      "name": "When chat message received",
+      "webhookId": "8b9caea0-489c-4c59-88d9-cbac1df5da83"
+    },
+    {
+      "parameters": {
+        "model": "llama-3.3-70b-versatile",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        160,
+        320
+      ],
+      "id": "accf7079-bf33-45d9-af43-b85dc821ab92",
+      "name": "Groq Chat Model",
+      "credentials": {
+        "groqApi": {
+          "id": "qzn62WYmOuLDb5WT",
+          "name": "Groq account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "You are a helpful AI assistant that answers questions about the research \npaper \"Attention Is All You Need\".\n\nYour task:\n1. When a user asks a question, use the vector store tool to search the \n   paper for relevant information\n2. Answer based ONLY on information you find in the paper\n3. If you cannot find relevant information, say \"I couldn't find that \n   information in the paper\"\n4. Be clear and concise\n5. Do not use knowledge outside of the paper\n\nAlways search the paper first before answering!",
+        "tableName": {
+          "__rl": true,
+          "value": "documents",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreSupabase",
+      "typeVersion": 1.3,
+      "position": [
+        672,
+        160
+      ],
+      "id": "ee72fe8e-237e-4215-b073-6a1d1bbbe438",
+      "name": "Supabase Vector Store1",
+      "credentials": {
+        "supabaseApi": {
+          "id": "vhUMBELizGjTHCON",
+          "name": "Supabase account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsHuggingFaceInference",
+      "typeVersion": 1,
+      "position": [
+        800,
+        336
+      ],
+      "id": "feaa0b85-7b23-4007-ba85-e2b8f14c0ac9",
+      "name": "Embeddings HuggingFace Inference1",
+      "credentials": {
+        "huggingFaceApi": {
+          "id": "L65T5lggPJdm641o",
+          "name": "HuggingFaceApi account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        288,
+        112
+      ],
+      "id": "1e8a0d7d-8f33-4f9c-b119-45b22b9aa925",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        304,
+        320
+      ],
+      "id": "06f9a8a1-eb49-438e-939f-efebb2574104",
+      "name": "Simple Memory"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Supabase Vector Store1": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings HuggingFace Inference1": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Supabase Vector Store1",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "8dd002dd-8741-4a15-ad9d-1f6fea58637c",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "06fbe89c9882430436e859f4026961cb1f827b693a7b41df39c1e676dd57c284"
+  },
+  "id": "M7VVwUq8d16mQ1ry",
+  "tags": []
+}
